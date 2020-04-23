@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <v-btn color="primary" @click="addBrand">新增品牌</v-btn>
+      <v-btn color="primary" @click="addBrand">新增品牌{{sum}}</v-btn>
       <!--搜索框，与search属性关联-->
       <v-spacer/>
       <v-flex xs3>
@@ -77,6 +77,8 @@
         show: false,// 控制对话框的显示
         oldBrand: {}, // 即将被编辑的品牌数据
         isEdit: false, // 是否是编辑
+        one:1,
+        two:2
       }
     },
     mounted() { // 渲染后执行
@@ -137,6 +139,23 @@
             this.oldBrand.categories = data;
           })
       },
+
+      deleteBrand(oldBrand){
+        //跳出是否删除信息弹框
+        this.$message.confirm('此操作将永久删除信息，是否删除？').then(()=>{
+          console.log('dsk')
+            //发送删除的请求
+            this.$http.delete("/item/brand/bid/"+oldBrand.id).then(()=>{
+               this.$message.info("删除成功");
+               //删除成功之后刷新页面
+               this.getDataFromServer();
+            });
+        })
+        .catch(()=>{
+          this.$message.info("删除已取消！");
+        })
+      },
+    
       closeWindow(){
         // 重新加载数据
         this.getDataFromServer();
@@ -146,6 +165,11 @@
     },
     components:{
         BrandForm
+    },
+    computed:{
+      sum:function(){
+        return this.one + this.two
+      }
     }
   }
 </script>
