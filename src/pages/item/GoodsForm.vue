@@ -215,7 +215,6 @@ export default {
       });
       goodsParams.spuDetail.genericSpec = JSON.stringify(specs);
       goodsParams.spuDetail.specialSpec = JSON.stringify(specTemplate);
-
       this.$http({
         method: this.isEdit ? "put" : "post",
         url: "/item/goods",
@@ -252,7 +251,6 @@ export default {
           this.specialSpecs = [];
         } else {
           this.goods = Object.deepCopy(val);
-
           // 先得到分类名称
           const names = val.cname.split("/");
           // 组织商品分类数据
@@ -261,7 +259,6 @@ export default {
             { id: val.cid2, name: names[1] },
             { id: val.cid3, name: names[2] }
           ];
-
           // 将skus处理成map
           const skuMap = new Map();
           this.goods.skus.forEach(s => {
